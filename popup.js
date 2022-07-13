@@ -1,37 +1,17 @@
-let elements = document.getElementsByClassName("icon-pair-inner");
-let handles = document.getElementsByClassName("handle");
-let el_length = handles.length;
-let captions = document.getElementsByClassName("semi-typography semi-typography-paragraph semi-typography-ellipsis semi-typography-ellipsis-single-line semi-typography-primary semi-typography-normal");
+// 「選択範囲をコピー」が押されたら、現在アクティブなタブへ通信をして、選択範囲の情報を取得
+$('#info-get').on('click', function(){
+	chrome.tabs.query( {active:true, currentWindow:true}, function(tabs){
+	  chrome.tabs.sendMessage(tabs[0].id, {message: '選択範囲ちょうだい'}, function(item){
+		if(!item){
+		  alert('リロードしてください');
+		  return;
+		}
+		$('#memo').val(item);
+	  });
+	});
+  });
 
-
-for (let i = 0; i < el_length*4; i++) {
-	switch (i%4) {
-	case 0:
-		vv_li.push(elements[i].textContent);
-		break;
-	case 1:
-		like_li.push(elements[i].textContent);
-		break;
-	case 2:
-		comment_li.push(elements[i].textContent);
-		break;
-	case 3:
-		share_li.push(elements[i].textContent);
-		break;
-	default:
-	}
-}
-for (let i=0; i < el_length; i++){
-	handle_li.push(handles[i].textContent);
-}
-
-for (let i=0; i < captions.length; i++){
-	if (i%2 == 1) {
-		caption_li.push(captions[i].textContent);
-	}
-}
-
-for (let i=0; i < el_length; i++){
-if (captions[i] !== undefined)
-	console.log(caption_li[i]+","+vv_li[i]+","+like_li[i]+","+comment_li[i]+","+share_li[i]+","+handle_li[i]);
-}
+  $('#copy').on('click', function() {
+	navigator.clipboard.writeText($("#memo").val());
+	$('#copy').val("コピーされました");
+  })

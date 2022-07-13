@@ -1,20 +1,21 @@
-console.log("bachgroundが読み込まれました");
-
-chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+chrome.runtime.onMessage.addListener(function(request, sender, sendResponse){
+    console.log(request.message); // -> 選択範囲ちょうだい が出力される
     let vv_li = []; 
     let like_li = [];
     let comment_li = [];
     let share_li = [];
     let handle_li = [];
     let caption_li = [];
+    let v_time_li = [];
     let info = "";
-    console.log("popup.jsが読み込まれました")
+
+    console.log("contentが読み込まれました")
 
     let elements = document.getElementsByClassName("icon-pair-inner");
     let handles = document.getElementsByClassName("handle");
     let el_length = handles.length;
     let captions = document.getElementsByClassName("semi-typography semi-typography-paragraph semi-typography-ellipsis semi-typography-ellipsis-single-line semi-typography-primary semi-typography-normal");
-
+    let v_time = document.getElementsByClassName("ant-tag video-controls-duration");
 
     for (let i = 0; i < el_length*4; i++) {
         switch (i%4) {
@@ -35,6 +36,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     }
     for (let i=0; i < el_length; i++){
         handle_li.push(handles[i].textContent);
+        v_time_li.push("00:"+v_time[i].textContent.trim());
     }
 
     for (let i=0; i < captions.length; i++){
@@ -45,10 +47,8 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 
     for (let i=0; i < el_length; i++){
         if (captions[i] !== undefined) {
-            info += caption_li[i]+","+vv_li[i]+","+like_li[i]+","+comment_li[i]+","+share_li[i]+","+handle_li[i]+"\n";
+            info += handle_li[i]+","+caption_li[i]+","+vv_li[i]+","+like_li[i]+","+comment_li[i]+","+share_li[i]+","+v_time_li[i]+"\n";
         }
     }
-    console.log("取得した情報: "+info);
-    console.log(sender.tab ? request.message :"messageがありません");
     sendResponse(info);
-});
+  });

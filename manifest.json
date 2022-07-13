@@ -4,16 +4,19 @@
   "version":"1.0",
   "content_scripts": [{
     "matches": ["http://*/*", "https://*/*" ],
-    "js": ["jquery-3.6.0.min.js", "content-script.js"]
+    "js": ["jquery-3.6.0.min.js", "content.js"]
   }],
   "background": {
       "service_worker": "background.js"
   },
   "action": {
-      "default_icon": "mint.png"
+      "default_title": "情報をコピー",
+      "default_icon": "mint.png",
+      "default_popup": "popup.html"
   },
   "permissions": [
       "tabs",
+      "activeTab",
       "scripting",
       "background",
       "https://*/*",
