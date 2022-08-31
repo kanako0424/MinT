@@ -8,9 +8,11 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse){
     let caption_li = [];
     let v_time_li = [];
     let info = "";
+    let dates_li = [];
 
     console.log("contentが読み込まれました")
 
+    const spanS = document.getElementsByTagName("span");
     let elements = document.getElementsByClassName("icon-pair-inner");
     let handles = document.getElementsByClassName("handle");
     let el_length = handles.length;
@@ -45,10 +47,19 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse){
         }
     }
 
-    for (let i=0; i < el_length; i++){
-        if (captions[i] !== undefined) {
-            info += handle_li[i]+","+caption_li[i]+","+vv_li[i]+","+like_li[i]+","+comment_li[i]+","+share_li[i]+","+v_time_li[i]+"\n";
+    for (let i = 0; i < spanS.length; i++) {
+        const element = spanS[i].innerText;
+        const regex = /[0-9]{4}\/[0-9]{2}\/[0-9]{2}\s[0-9]{2}:[0-9]{2}:[0-9]{2}/;
+        if (regex.test(element)) {
+            dates_li.push(element);
         }
     }
+
+    for (let i=0; i < el_length; i++){
+        if (captions[i] !== undefined) {
+            info += handle_li[i]+","+dates_li[i]+","+caption_li[i]+","+vv_li[i]+","+like_li[i]+","+comment_li[i]+","+share_li[i]+","+v_time_li[i]+"\n";
+        }
+    }
+
     sendResponse(info);
   });
