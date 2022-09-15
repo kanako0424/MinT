@@ -9,6 +9,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse){
     let v_time_li = [];
     let info = "";
     let dates_li = [];
+    let vid_li = [];
 
     console.log("contentが読み込まれました")
 
@@ -52,6 +53,9 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse){
         const regex = /[0-9]{4}\/[0-9]{2}\/[0-9]{2}\s[0-9]{2}:[0-9]{2}:[0-9]{2}/;
         if (regex.test(element)) {
             dates_li.push(element);
+        }
+        if (spanS[i].className = "VKzHWRKkkCSAPU_PwCXi"){
+            vid_li.push(element);
         }
     }
 
